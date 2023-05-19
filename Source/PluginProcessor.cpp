@@ -189,13 +189,13 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
-    // Lo-cut parameter
-    // Params for layout.add are name, param name, normalizableRange, default value
+    // Lo-cut Parameter
+    // Params for layout.add are name, param name, normalizableRange (min, max, rateOfChange, skew), default value
     layout.add(std::make_unique<juce::AudioParameterFloat>("LowCut Freq",
                                                            "LowCut Freq",
                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f),
                                                            20.f));
-    // Hi-cut parameter
+    // Hi-cut Parameter
     layout.add(std::make_unique<juce::AudioParameterFloat>("HighCut Freq",
                                                            "HighCut Freq",
                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f),
@@ -219,6 +219,23 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
                                                            juce::NormalisableRange<float>(0.1f, 10.f, 0.05f, 1.f),
                                                            1.f));
     /* Mid-Band Peak Parameters End */
+    
+    
+    // This is a choice by the teacher to use a for loop for automating the names of the steepness in the string array. I may just simply not know how string arrays work in c++ but this seems like a strange way to go about this.
+    juce::StringArray stringArray;
+    for (int i = 0; i < 4; i++)
+    {
+        juce::String str;
+        str << (12 + (i * 12));
+        str << " db/Oct";
+        stringArray.add(str);
+    }
+    
+    // Lo-Cut Steep
+    layout.add(std::make_unique<juce::AudioParameterChoice>("LowCut Slope", "LowCut Slope", stringArray, 0));
+    
+    // Hi-Cut Steep
+    layout.add(std::make_unique<juce::AudioParameterChoice>("HighCut Slope", "HighCut Slope", stringArray, 0));
     
     return layout;
 }
