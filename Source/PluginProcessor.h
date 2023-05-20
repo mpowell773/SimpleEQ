@@ -61,6 +61,17 @@ public:
     juce::AudioProcessorValueTreeState apvts {*this, nullptr, "Parameters", createParameterLayout()};
 
 private:
+    // Utilizing name space aliases to simplify working with the juce DSP framework
+    
+    // Generic Filter
+    using Filter = juce::dsp::IIR::Filter<float>;
+    // Four filters are chained together for the slope choices
+    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
+    // Using a MonoChain to chain together the three EQ parameters
+    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+    // To have stereo processing, need to have two separate chains for each channel
+    MonoChain leftChain, rightChain;
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessor)
 };

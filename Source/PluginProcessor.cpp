@@ -191,7 +191,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout SimpleEQAudioProcessor::crea
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     
     // Lo-cut Parameter
-    // Params for layout.add are name, param name, normalizableRange (min, max, rateOfChange, skew), default value
+    // Params for AudioParameterFloat are name, param name, normalizableRange (min, max, rateOfChange, skew), default value
     layout.add(std::make_unique<juce::AudioParameterFloat>("LowCut Freq",
                                                            "LowCut Freq",
                                                            juce::NormalisableRange<float>(20.f, 20000.f, 1.f, 1.f),
